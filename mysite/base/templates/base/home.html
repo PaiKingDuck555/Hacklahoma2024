@@ -1,0 +1,99 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        /* Styles for the entire body. This includes a default background in case the image fails to load. */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            color: white; 
+            font-family: Arial, sans-serif;
+        } 
+        .hero { position: relative; text-align: center; color: white; }
+        .hero-background { background: url('your-image-path.jpg') center center / cover no-repeat; height: 70vh; }
+        .hero-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .hero h1 { font-size: 4rem; margin-bottom: 1rem; }
+        .hero h2 { font-size: 1.5rem; margin-bottom: 2rem; }
+
+        /* Styles for the header. Adjust as necessary. */
+        header {
+            background-color: transparent; /* Dark grey background */
+            color: white; /* White text color */
+            padding: 20px; /* Some padding */
+            text-align: center; /* Centered text */
+            position: relative; /* Needed for absolute positioning of header buttons */
+        }
+
+        /* Styles for the header buttons container */
+        .header-buttons {
+            position: absolute; /* Absolute positioning */
+            right: 20px; /* Right aligned with a 20px margin */
+            top: 50%; /* Center vertically in the header */
+            transform: translateY(-50%); /* Adjust for exact vertical centering */
+        }
+
+        /* Style for buttons */
+        header button {
+            padding: 10px 20px; /* Padding inside the buttons */
+            margin-left: 10px; /* Space between the buttons */
+            background-color: #007BFF; /* Example background color */
+            color: white; /* Text color */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Change mouse cursor to pointer */
+            font-size: 16px; /* Font size */
+        }
+
+        header button:hover {
+            background-color: #fff; /* Darker shade on hover for visual feedback */
+        } 
+        .button { padding: 1rem 2rem; margin: 0 0.5rem; background-color: #007bff; border: none; color: white; cursor: pointer; }
+        .button:hover { background-color: #0056b3; }
+
+        /* The .main-content class is used to style the content area. The background image covers the entire content area. */
+        .main-content {
+            height: calc(100% - 60px); /* Adjust height taking header height into account */
+            background: url('background-image.jpg') no-repeat center center fixed; 
+            background-size: cover; /* Cover the entire page but leave the header */
+            padding: 20px; /* Some padding */
+            box-sizing: border-box; /* Makes sure padding does not affect the total width/height */
+        }
+
+        /* Additional styles for content inside .main-content for better visibility/readability */
+        .main-content p {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for the text */
+            padding: 10px; /* Some padding */
+            border-radius: 5px; /* Rounded corners */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-buttons">
+            <!-- <button>Button 1</button>
+            <button>Button 2</button> -->
+        </div>
+       
+          
+    </header>
+    <div class="hero">
+        <div class="hero-background">
+          <div class="hero-content">
+            <h1>INTERSTELLAR FOCUS</h1>
+            <h2></h2>
+            <!-- Buttons or other elements here -->
+          </div>
+        </div>
+      </div>
+</body>
+</html>
+
+
+{% endblock %}

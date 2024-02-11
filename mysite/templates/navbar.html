@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #282c34;
+            color: white;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+        .navbar a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            transition: background-color 0.3s; 
+
+        }
+        .navbar a:hover {
+            background-color: #555;
+        }
+        .nav-buttons {
+            margin-left: auto; /* Pushes the element to the right */
+        }
+        .button {
+            background-color: #008CBA; /* Blue */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;  
+
+        }
+        .button:hover {
+            background-color: #007B9A; /* Darker Blue */
+        } 
+        .title{ 
+            font-size: 25px;
+        }
+        
+    </style>
+</head> 
+
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}">
+            <div class="navbar-logo" >
+                <i class="fas fa-home"></i>
+            </div> 
+        </a> 
+        <h1 class="title"></h1> 
+        <div class="nav-buttons">
+            <a href="{% url 'view-dashboard' %}" class = "button">Dashboard</a>
+            <a href="{% url 'login-page' %}" class = "button">Login/Register</a>
+        </div>
+    </div>
+
+    <!-- Your page content goes here -->
+
+</body>
+</html>

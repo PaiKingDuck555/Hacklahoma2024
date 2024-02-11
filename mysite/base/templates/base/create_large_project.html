@@ -1,0 +1,101 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding-top: 100px; /* Adjusted to leave space for the h1 tag */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    
+    h1 {
+    color: white;
+    margin-top: 60px; /* Adjust margin-top as needed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000; /* Ensures it's above other elements */
+    }
+    
+    .form-container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+        color: #007BFF;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    label {
+        margin-top: 10px;
+        color: #333;
+    }
+    
+    input, textarea, button {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+    }
+
+   
+    </style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>Create New Project</title>
+    </head>
+    <body>
+    
+    
+        <div class="form-container">
+            <h1>Create Large Project</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" name="projectName" required>
+    
+                <label for="projectDescription">Project Description:</label>
+                <textarea id="projectDescription" name="projectDescription" rows="4" required></textarea>
+    
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" name="dueDate" required>
+    
+                <button type="submit">Create Project</button>
+            </form>
+        </div>
+    
+    </body>
+    </html>
+
+{% endblock %}

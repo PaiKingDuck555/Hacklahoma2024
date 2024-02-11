@@ -1,0 +1,118 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+
+
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.dashboard-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    text-decoration: none;
+    color: #333;
+    width: 300px;
+    transition: transform 0.3s;
+}
+
+.dashboard-box:hover {
+    transform: scale(1.05);
+}
+
+h3 {
+    color: #007BFF;
+}
+
+.description, .date {
+    color: #555;
+    margin: 10px 0;
+}
+
+/*
+.new-project-button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: inline-block;
+    transition: background-color 0.3s;
+    text-align: center; 
+}
+*/
+
+.new-project-button:hover {
+    background-color: #0056b3;
+} 
+.plus {
+  font-size: 150px; /* Adjust size as needed */
+  color: rgba(255, 255, 255, 0.5); /* This makes the plus sign semi-transparent; adjust as needed */
+  /* Additional styling */ 
+  text-decoration: none;
+} 
+.plus:hover{ 
+    background-color: #0056b3;
+}
+
+h1 {
+    color: white;
+    margin-top: 60px; /* Adjust margin-top as needed */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000; /* Ensures it's above other elements */
+    }
+</style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+   
+    <title>Dashboard</title> 
+    <div class="main"></div>
+</head>
+<body>
+    <h1>Dashboard Projects!</h1>
+    <div class="dashboard-container">
+        
+        {% for project in projects %}
+        <!-- Box 1 -->
+            <a href="{% url 'view-project'  project.id%}" class="dashboard-box">
+                <h3>{{project.name}}</h3>
+                <p class="description">{{project.description}}</p>
+                <p class="date">Due Date: {{project.due_date}}</p>
+            </a>
+
+        {% endfor %}
+        
+
+        <!-- Add more boxes as needed --> 
+        <a href="{% url 'create-large-project'  %}" class="plus">+</a>
+    </div>
+
+    <!-- Create New Project Button -->
+    
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+body {
+    text-align: center;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.dashboard-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    text-decoration: none;
+    color: #333;
+    width: 300px;
+    transition: transform 0.3s;
+}
+
+.dashboard-box:hover {
+    transform: scale(1.05);
+}
+
+h3 {
+    color: #007BFF;
+}
+
+.description, .date {
+    color: #555;
+    margin: 10px 0;
+}
+
+.new-project-button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.new-project-button:hover {
+    background-color: #0056b3;
+}
+
+h1 {
+    color: white;
+    margin-top: 20px; /* Adjust margin-top as needed */
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>View Project: {{project.name}}</h1>
+    <div class="dashboard-container">
+        {% for project in sub_projects %}
+        <!-- Box 1 -->
+            <a href="{% url 'view-documents' project.id %}" class="dashboard-box">
+                <h3>{{project.name}}</h3>
+                <p class="description">{{project.description}}</p>
+            </a>
+        {% endfor %}
+        <!-- Add more boxes as needed -->
+    </div>
+
+    <!-- Create New Project Button -->
+    <a href="{% url 'create-small-project' project.id %}" class="new-project-button">Create Small Project</a>
+</body>
+</html>
+
+{% endblock %}

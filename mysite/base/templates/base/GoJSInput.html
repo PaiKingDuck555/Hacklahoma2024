@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GoJS Example - Enhanced UI</title>
+    <script src="https://unpkg.com/gojs/release/go.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;   
+            padding-left: 100px;
+        }
+        #myDiagramDiv {
+            width: 100%;
+            height: 400px;
+            border: 2px solid #0275d8;
+            margin-bottom: 20px;
+            background-color: white; 
+     
+        }
+        .input-field, .button {
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;  
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+
+        }
+        .button {
+            background-color: #0275d8;
+            color: white;
+            cursor: pointer;
+            border: none; 
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+        }
+        .button:hover {
+            background-color: #025aa5;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            background-color: #fafafa;
+        }
+        label {
+            font-weight: bold;
+            margin-right: 10px; 
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+        }
+        .prompt{ 
+        font-size: medium; 
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    </style>
+    <script>
+        var myDiagram;
+
+        //Constructor
+        function init() {
+            var $ = go.GraphObject.make;
+            myDiagram = $(go.Diagram, "myDiagramDiv",
+                {
+                    "undoManager.isEnabled": true
+                });
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle", { strokeWidth: 0, fill: "white" },
+                        new go.Binding("fill", "color")),
+                    $(go.TextBlock, { margin: 8 },
+                        new go.Binding("text", "text"))
+                );
+            myDiagram.model = new go.GraphLinksModel();
+        }
+
+        function addNode() {
+            var nodeName = document.getElementById('nodeName').value;
+            if (nodeName !== "") {
+                var nodeData = { key: nodeName, text: nodeName, color: "lightblue" };
+                myDiagram.model.addNodeData(nodeData);
+                document.getElementById('nodeName').value = '';
+                updateNodeList();
+            }
+        }
+
+        function addLink() {
+            var fromNode = document.getElementById('fromNode').value;
+            var toNode = document.getElementById('toNode').value;
+            if (fromNode !== "" && toNode !== "" && fromNode !== toNode) {
+                myDiagram.model.addLinkData({ from: fromNode, to: toNode });
+                updateNodeList();
+            }
+        }
+
+        function updateNodeList() {
+            var fromNodeSelect = document.getElementById('fromNode');
+            var toNodeSelect = document.getElementById('toNode');
+            fromNodeSelect.innerHTML = '';
+            toNodeSelect.innerHTML = '';
+            myDiagram.model.nodeDataArray.forEach(function(node) {
+                var option = document.createElement('option');
+                option.value = node.key;
+                option.text = node.text;
+                fromNodeSelect.add(option.cloneNode(true));
+                toNodeSelect.add(option);
+            });
+        } 
+        function loadDiagram(diagramData) {
+            var diagramData = localStorage.getItem('mySavedDiagram');
+            if (diagramData) {
+                myDiagram.model = go.Model.fromJson(diagramData);
+                updateNodeList(); // To refresh the node lists in the UI
+                alert('Diagram loaded!');
+            } else {
+                alert('No diagram found in local storage.');
+            }
+        }
+
+        function saveDiagram() {
+            var diagramData = myDiagram.model.toJson();
+            myDiagram.isModified = false;
+            localStorage.setItem('mySavedDiagram', diagramData);
+            
+            var linkData = myDiagram.model.linkDataArray;
+            //Here connectionsList is called every time we save the data.  
+            //We need to use this for our LLM and then also using our prompt. 
+            var connectionsList = linkData.map(link => {
+                var fromNode = myDiagram.model.findNodeDataForKey(link.from);
+                var toNode = myDiagram.model.findNodeDataForKey(link.to);
+                return `I have a connection between "${fromNode.text}" and "${toNode.text}"`;
+            });
+
+            document.getElementById('connectionsOutput').value = 'Connections:\n' + connectionsList.join('\n');
+        } 
+       
+
+        function undo() {
+            if (myDiagram.commandHandler.canUndo()) {
+                myDiagram.commandHandler.undo();
+            }
+        }
+    </script> 
+</head> 
+<p class="prompt">Prompt: {{ideation.prompt}}</p>
+<body onload="init()">
+    <h1></h1>
+    <div>
+        <label for="nodeName">Node Text:</label>
+        <input type="text" id="nodeName" name="nodeName">
+        <button onclick="addNode()">Add Node</button>
+    </div>
+    <div>
+        <label for="fromNode">From Node:</label>
+        <select id="fromNode"></select>
+        <label for="toNode">To Node:</label>
+        <select id="toNode"></select>
+        <button onclick="addLink()">Add Link</button>
+    </div>
+    <div>
+        <button onclick="undo()">Undo</button>
+        <button onclick="saveDiagram()">Save Diagram</button>
+        <button onclick="loadDiagram()">Load Diagram</button>
+    </div>
+    <div id="myDiagramDiv" style="width:1000px; height: 800px; border: 1px solid black;"></div>
+    <!-- <textarea id="connectionsOutput" style="width:600px; height:100px;" readonly></textarea>  -->
+    <!-- //This prints out the text that is representative of the connection between texts.  
+    //We need to be able to call this data into our LLM along with the prompt, so basically call certain data from the brainstorm section.  -->
+</body>
+</html>

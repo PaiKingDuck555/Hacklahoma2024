@@ -1,0 +1,130 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+  .document-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .document-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    text-decoration: none;
+    padding: 15px; /* Adjusted padding */
+    color: #333;
+    width: 80%;
+    max-width: 600px; /* Adjust as needed */
+  }
+
+  .document-box:hover {
+    transform: scale(1.05);
+  }
+
+  .document-form-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px; /* Adjust as needed */
+  }
+
+  .document-form {
+    width: 100%;
+  }
+
+  .document-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .document-form input,
+  .document-form select,
+  .document-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  .create-document-button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s;
+  }
+
+  .create-document-button:hover {
+    background-color: #0056b3;
+  }
+  h1 {
+        color: white;
+        margin-top: 20px; /* Adjust margin-top as needed */
+    }
+  label, h3 {
+    color: black;
+  }
+</style>
+<div class="document-container">
+  <h1>Small Project: {{small_project.name}} Documents...</h1>
+
+  {% for document in documents %}
+    <!-- Document Box -->
+      <div class="document-box">
+        <a href="{% url 'document' document.id%}"><h3>{{ document.name }}</h3></a>
+        <p>Date Due: {{ document.due_date }}</p>
+        <p>Document Number: {{ document.number }}</p>
+        <p>Type: {{ document.doc_type }}</p>
+      </div>
+    
+  {% endfor %}
+
+  {% for ideation in ideations %}
+    <!-- Document Box -->
+      <div class="document-box">
+        <a href="{% url 'view-ideation' ideation.id%}"><h3>{{ ideation.name }}</h3></a>
+        <p>Type: {{ document.doc_type }}</p>
+      </div>
+    
+  {% endfor %}
+
+  <!-- Document Form Card -->
+  <div class="document-form-card">
+    <h3>Create New Document</h3>
+    <form class="document-form" method="POST" action="">
+      {% csrf_token %}
+      <label for="document_name">Document Name:</label>
+      <input type="text" id="document_name" name="document_name" required>
+
+      <label for="due_date">Due Date:</label>
+      <input type="date" id="due_date" name="due_date" required>
+
+      <label for="type">Type:</label>
+      <select id="type" name="type" required>
+        <option value="document">Document</option>
+        <option value="ideation">Ideation</option>
+      </select>
+
+      <label for="document_number">Document Number:</label>
+      <input type="text" id="document_number" name="document_number" required>
+
+      <label for="prompt">Prompt:</label>
+      <textarea id="prompt" name="prompt" rows="4" required></textarea>
+
+      <button type="submit" class="create-document-button">Create Document</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
