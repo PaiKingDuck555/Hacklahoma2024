@@ -4,7 +4,7 @@ const chatbox = document.querySelector(".chatbox");
 const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
 let userMessage = null; // Variable to store user's message
-const API_KEY = "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"; // Paste your API key here
+const API_KEY = ""; // Do not commit API keys. Proxy OpenAI from a backend instead.
 const inputInitHeight = chatInput.scrollHeight;
 const createChatLi = (message, className) => {
     // Create a chat <li> element with passed message and className
@@ -18,6 +18,10 @@ const createChatLi = (message, className) => {
 const generateResponse = (chatElement) => {
     const API_URL = "https://api.openai.com/v1/chat/completions";
     const messageElement = chatElement.querySelector("p");
+    if (!API_KEY) {
+        messageElement.textContent = "Chat is disabled because no API key is configured.";
+        return;
+    }
     // Define the properties and message for the API request
     const requestOptions = {
         method: "POST",
